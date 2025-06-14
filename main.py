@@ -23,6 +23,7 @@ def pygame_loop() -> bool:
     pygame.joystick.init()
 
     def wait_for_joystick() -> "pygame.joystick.Joystick":
+        print("ゲームパッドを待っています…")
         joystick = None
         while joystick is None:
             pygame.joystick.quit()
@@ -31,7 +32,6 @@ def pygame_loop() -> bool:
                 joystick = pygame.joystick.Joystick(0)
                 joystick.init()
             else:
-                print("ゲームパッドを待っています…")
                 time.sleep(1)
         return joystick
 
