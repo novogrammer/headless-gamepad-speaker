@@ -28,14 +28,20 @@
 
 ## 使い方
 
-1. 依存パッケージをインストール:
+1. Python 仮想環境を作成して有効化 (推奨):
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+2. 依存パッケージをインストール:
 
    ```bash
    pip install -r requirements.txt
    ```
-
-2. `say`または`open_jtalk`と`aplay`が使用できることを確認します。
-3. ゲームパッドを接続し、メインプログラムを実行:
+3. `say`または`open_jtalk`と`aplay`が使用できることを確認します。
+4. ゲームパッドを接続し、メインプログラムを実行:
 
    ```bash
    python main.py
