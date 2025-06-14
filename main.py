@@ -2,6 +2,7 @@
 
 from speak import speak
 from weather import fetch_weather
+from time_utils import fetch_time
 import time
 
 try:
@@ -49,9 +50,15 @@ def pygame_loop() -> bool:
                     disconnected = True
                 for event in pygame.event.get():
                     if event.type == pygame.JOYBUTTONDOWN:
-                        text = fetch_weather()
-                        print(text)
-                        speak(text)
+                        if event.button == 0:
+                            text = fetch_time()
+                        elif event.button == 1:
+                            text = fetch_weather()
+                        else:
+                            text = None
+                        if text:
+                            print(text)
+                            speak(text)
                     elif hasattr(pygame, "JOYDEVICEREMOVED") and event.type == pygame.JOYDEVICEREMOVED:
                         disconnected = True
                 time.sleep(0.1)
