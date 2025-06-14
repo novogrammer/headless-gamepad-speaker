@@ -2,6 +2,7 @@
 
 from speak import speak
 from weather import fetch_weather
+import time
 
 try:
     from inputs import devices, get_gamepad
@@ -19,13 +20,20 @@ def main() -> None:
         speak(message)
         return
 
-    if not devices.gamepads:
-        print("ゲームパッドが見つかりませんでした。")
-        return
-
     print("ボタンを押すと天気を読み上げます。Ctrl+Cで終了します。")
     while True:
-        for event in get_gamepad():
+        if not devices.gamepads:
+            print("ゲームパッドを待っています…")
+            time.sleep(1)
+            continue
+
+        try:
+            events = get_gamepad()
+        except Exception:  # pragma: no cover - run-time device issues
+            time.sleep(1)
+            continue
+
+        for event in events:
             if event.ev_type == "Key" and event.state == 1:
                 text = fetch_weather()
                 print(text)
