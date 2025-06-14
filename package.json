@@ -1,5 +1,5 @@
 {
-  "name": "gamepad-speaker",
+  "name": "headless-gamepad-speaker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
