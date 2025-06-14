@@ -14,9 +14,9 @@ except Exception as exc:  # pragma: no cover - runtime dependency check
 def main() -> None:
     """Wait for a gamepad button press then speak the weather."""
     if get_gamepad is None:
-        text = fetch_weather()
-        print(text)
-        speak(text)
+        message = "ゲームパッド操作にはinputsライブラリが必要です。"
+        print(message)
+        speak(message)
         return
 
     if not devices.gamepads:
