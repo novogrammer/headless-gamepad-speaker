@@ -11,7 +11,17 @@
   - `say`コマンドと対応システム（macOS）
   - `open_jtalk`と`aplay`の組み合わせ（Ubuntu/Debian）
 
-Dockerを使用する場合は、`Dockerfile`で必要なパッケージとダミー音声デバイス(`pulseaudio`)をインストールします。
+ Dockerを使用する場合は、`Dockerfile`で必要なパッケージとダミー音声デバイス(`pulseaudio`)をインストールします。
+
+ Linux 環境で実行する場合は以下の `apt` パッケージのインストールを推奨します。
+
+ ```bash
+ sudo apt-get update && sudo apt-get install -y \
+     python3.11 python3-pip \
+     alsa-utils \
+     open-jtalk \
+     hts-voice-nitech-jp-atr503-m001 open-jtalk-mecab-naist-jdic
+ ```
 
 ## 使い方
 
