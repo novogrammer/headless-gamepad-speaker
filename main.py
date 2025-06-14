@@ -20,26 +20,44 @@ def pygame_loop() -> bool:
     # pygame's mixer can monopolize the audio device, so disable it
     pygame.mixer.quit()
     pygame.joystick.init()
-    joystick = None
-    while joystick is None:
-        pygame.joystick.quit()
-        pygame.joystick.init()
-        if pygame.joystick.get_count() > 0:
-            joystick = pygame.joystick.Joystick(0)
-            joystick.init()
-        else:
-            print("ゲームパッドを待っています…")
-            time.sleep(1)
+
+    def wait_for_joystick() -> "pygame.joystick.Joystick":
+        joystick = None
+        while joystick is None:
+            pygame.joystick.quit()
+            pygame.joystick.init()
+            if pygame.joystick.get_count() > 0:
+                joystick = pygame.joystick.Joystick(0)
+                joystick.init()
+            else:
+                print("ゲームパッドを待っています…")
+                time.sleep(1)
+        return joystick
+
+    joystick = wait_for_joystick()
 
     print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
     try:
         while True:
             pygame.event.pump()
+            if not joystick.get_attached():
+                print("ゲームパッドが切断されました。")
+                joystick = wait_for_joystick()
+                print(
+                    f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。"
+                )
+                continue
             for event in pygame.event.get():
                 if event.type == pygame.JOYBUTTONDOWN:
                     text = fetch_weather()
                     print(text)
                     speak(text)
+                elif hasattr(pygame, "JOYDEVICEREMOVED") and event.type == pygame.JOYDEVICEREMOVED:
+                    print("ゲームパッドが切断されました。")
+                    joystick = wait_for_joystick()
+                    print(
+                        f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。"
+                    )
             time.sleep(0.1)
     except KeyboardInterrupt:
         pass
