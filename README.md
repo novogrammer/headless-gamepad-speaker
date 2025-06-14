@@ -2,6 +2,7 @@
 
 このプロジェクトはゲームパッドのボタンを押すと、現在の天気や時刻を読み上げる小さなPythonアプリを提供します。
 `pygame`で入力を処理し、macOSでは`say`コマンド、Linuxでは`open_jtalk`と`aplay`を使って音声を出力します。
+実行にはゲームパッドとスピーカーが必須です。
 
 ## 必要環境
 
@@ -15,7 +16,7 @@
 
  Dockerを使用する場合は、`Dockerfile`で必要なパッケージとダミー音声デバイス(`pulseaudio`)をインストールします。
 
- Linux 環境で実行する場合は以下の `apt` パッケージのインストールを推奨します。
+ Linux 環境で実行する場合は以下の `apt` パッケージのインストールが必要です。
 
  ```bash
  sudo apt-get update && sudo apt-get install -y \
