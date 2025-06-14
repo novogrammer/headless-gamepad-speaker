@@ -14,9 +14,9 @@ def fetch_weather() -> str:
             data = json.load(response)
         today = (
             data[0]["timeSeries"][0]["areas"][0]["weathers"][INDEX_TODAY]
-            .replace("\u3000", " ")
+            .replace("\u3000", "、")
         )
-        return f"{AREA_NAME}の今日の天気は「{today}」です。"
+        return f"{AREA_NAME}の今日の天気は「{today}」でしょう。"
     except Exception as e:
         print("天気取得エラー:", getattr(e, "message", str(e)))
         return "天気情報の取得に失敗しました"
