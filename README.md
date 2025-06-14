@@ -1,45 +1,39 @@
-# Headless Gamepad Speaker
+# ヘッドレスゲームパッドスピーカー
 
-This project provides a small Python application that speaks the current
-weather or time when you press buttons on a gamepad. It relies on
-`pygame` for input handling and can use either the `say` command on
-macOS or `open_jtalk` with `aplay` on Linux to produce speech.
+このプロジェクトはゲームパッドのボタンを押すと、現在の天気や時刻を読み上げる小さなPythonアプリを提供します。
+`pygame`で入力を処理し、macOSでは`say`コマンド、Linuxでは`open_jtalk`と`aplay`を使って音声を出力します。
 
-## Requirements
+## 必要環境
 
-- Python 3.11 or later
-- `pygame` (see `requirements.txt`)
-- One of the following speech systems:
-  - The `say` command (macOS)
-  - `open_jtalk` and `aplay` (Ubuntu/Debian)
+- Python 3.11 以上
+- `pygame`（`requirements.txt`を参照）
+- 以下のいずれかの音声出力システム
+  - `say`コマンドと対応システム（macOS）
+  - `open_jtalk`と`aplay`の組み合わせ（Ubuntu/Debian）
 
-For Docker usage, see the provided `Dockerfile` which installs the
-necessary packages including a dummy sound device via `pulseaudio`.
+Dockerを使用する場合は、`Dockerfile`で必要なパッケージとダミー音声デバイス(`pulseaudio`)をインストールします。
 
-## Usage
+## 使い方
 
-1. Install dependencies:
+1. 依存パッケージをインストール:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Ensure your system has either `say` or `open_jtalk` + `aplay`.
-3. Connect a gamepad and run the main program:
+2. `say`または`open_jtalk`と`aplay`が使用できることを確認します。
+3. ゲームパッドを接続し、メインプログラムを実行:
 
    ```bash
    python main.py
    ```
 
-4. Press gamepad button **0** to hear the current time or button **1** to
-   hear today's weather for Osaka (configured in `weather.py`).
+4. ボタン **0** を押すと現在時刻、ボタン **1** を押すと大阪の天気(`weather.py`で設定)を読み上げます。
 
-## Customization
+## カスタマイズ
 
-Weather forecasts are fetched from the Japan Meteorological Agency. You
-can change the area by modifying `AREA_CODE` and `AREA_NAME` in
-`weather.py`.
+天気予報は気象局から取得します。地域を変更する場合は`weather.py`の`AREA_CODE`と`AREA_NAME`を更新してください。
 
-## License
+## ライセンス
 
-This project is distributed under the MIT License.
+このプロジェクトは MIT ライセンスのもとで配布しています。
