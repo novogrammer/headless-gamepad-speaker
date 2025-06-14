@@ -1,7 +1,8 @@
-"""Gamepad controlled weather speaker."""
+"""Gamepad-controlled speaker for reporting information such as time or weather."""
 
 from speak import speak
 from weather import fetch_weather
+from time_utils import fetch_time
 import time
 
 try:
@@ -49,9 +50,15 @@ def pygame_loop() -> bool:
                     disconnected = True
                 for event in pygame.event.get():
                     if event.type == pygame.JOYBUTTONDOWN:
-                        text = fetch_weather()
-                        print(text)
-                        speak(text)
+                        if event.button == 0:
+                            text = fetch_time()
+                        elif event.button == 1:
+                            text = fetch_weather()
+                        else:
+                            text = None
+                        if text:
+                            print(text)
+                            speak(text)
                     elif hasattr(pygame, "JOYDEVICEREMOVED") and event.type == pygame.JOYDEVICEREMOVED:
                         disconnected = True
                 time.sleep(0.1)
@@ -64,7 +71,7 @@ def pygame_loop() -> bool:
 
 
 def main() -> None:
-    """Wait for a gamepad button press then speak the weather."""
+    """Wait for a gamepad button press then speak information like the time or weather."""
     if pygame_loop():
         return
     message = "ゲームパッド操作にはpygameライブラリが必要です。"
