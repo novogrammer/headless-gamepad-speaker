@@ -45,7 +45,7 @@ def pygame_loop() -> bool:
             disconnected = False
             while not disconnected:
                 pygame.event.pump()
-                if not joystick.get_attached():
+                if hasattr(joystick, "get_attached") and not joystick.get_attached():
                     disconnected = True
                 for event in pygame.event.get():
                     if event.type == pygame.JOYBUTTONDOWN:
