@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "Yusuke Kawamoto <novogrammer@gmail.com> (https://github.com/novogrammer/)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "shell-quote": "^1.8.3"
+  }
 }

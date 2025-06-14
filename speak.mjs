@@ -1,9 +1,9 @@
 import {spawn} from "child_process";
+import { quote } from "shell-quote";
 // echo "こんにちは" | open_jtalk -x /var/lib/mecab/dic/open-jtalk/naist-jdic -m /usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice -ow /dev/stdout | aplay --quiet
 
 export function speak(text){
-  // TODO: quote
-  const safeText = text;
+  const safeText = quote([text]);
 
   const cmd = [
     `echo ${safeText}`,
