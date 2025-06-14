@@ -17,6 +17,8 @@ def pygame_loop() -> bool:
         return False
 
     pygame.init()
+    # pygame's mixer can monopolize the audio device, so disable it
+    pygame.mixer.quit()
     pygame.joystick.init()
     joystick = None
     while joystick is None:
