@@ -1,4 +1,4 @@
-"""Gamepad-controlled speaker for time and weather."""
+"""Gamepad-controlled speaker for reporting information such as time or weather."""
 
 from speak import speak
 from weather import fetch_weather
@@ -71,7 +71,7 @@ def pygame_loop() -> bool:
 
 
 def main() -> None:
-    """Wait for a gamepad button press then speak the time or weather."""
+    """Wait for a gamepad button press then speak information like the time or weather."""
     if pygame_loop():
         return
     message = "ゲームパッド操作にはpygameライブラリが必要です。"
