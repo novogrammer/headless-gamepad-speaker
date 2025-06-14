@@ -34,31 +34,28 @@ def pygame_loop() -> bool:
                 time.sleep(1)
         return joystick
 
-    joystick = wait_for_joystick()
+    def wait_and_notify() -> "pygame.joystick.Joystick":
+        joystick = wait_for_joystick()
+        print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
+        return joystick
 
-    print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
     try:
         while True:
-            pygame.event.pump()
-            if not joystick.get_attached():
-                print("ゲームパッドが切断されました。")
-                joystick = wait_for_joystick()
-                print(
-                    f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。"
-                )
-                continue
-            for event in pygame.event.get():
-                if event.type == pygame.JOYBUTTONDOWN:
-                    text = fetch_weather()
-                    print(text)
-                    speak(text)
-                elif hasattr(pygame, "JOYDEVICEREMOVED") and event.type == pygame.JOYDEVICEREMOVED:
-                    print("ゲームパッドが切断されました。")
-                    joystick = wait_for_joystick()
-                    print(
-                        f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。"
-                    )
-            time.sleep(0.1)
+            joystick = wait_and_notify()
+            disconnected = False
+            while not disconnected:
+                pygame.event.pump()
+                if not joystick.get_attached():
+                    disconnected = True
+                for event in pygame.event.get():
+                    if event.type == pygame.JOYBUTTONDOWN:
+                        text = fetch_weather()
+                        print(text)
+                        speak(text)
+                    elif hasattr(pygame, "JOYDEVICEREMOVED") and event.type == pygame.JOYDEVICEREMOVED:
+                        disconnected = True
+                time.sleep(0.1)
+            print("ゲームパッドが切断されました。")
     except KeyboardInterrupt:
         pass
     finally:
