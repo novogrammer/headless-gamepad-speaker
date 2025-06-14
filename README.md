@@ -7,6 +7,8 @@
 
 - Python 3.11 以上
 - `pygame`（`requirements.txt`を参照）
+- USB接続のゲームパッド
+- スピーカー（またはヘッドホン）
 - 以下のいずれかの音声出力システム
   - `say`コマンドと対応システム（macOS）
   - `open_jtalk`と`aplay`の組み合わせ（Ubuntu/Debian）
