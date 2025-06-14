@@ -6,7 +6,7 @@ DIGIT_MAP = {
     '2': 'フタ',
     '3': 'サン',
     '4': 'ヨン',
-    '5': 'ゴ－',
+    '5': 'ゴオ',
     '6': 'ロク',
     '7': 'ナナ',
     '8': 'ハチ',
@@ -14,7 +14,7 @@ DIGIT_MAP = {
 }
 
 def format_time_to_digit_reading(time:str) -> str:
-    return ''.join(DIGIT_MAP[d] for d in time)
+    return ''.join("「"+DIGIT_MAP[d]+"」" for d in time)
 
 # open_jtalkが数字を読むのが苦手なので一桁ずつ読む
 def fetch_time() -> str:
