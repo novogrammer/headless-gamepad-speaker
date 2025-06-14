@@ -5,46 +5,52 @@ from weather import fetch_weather
 import time
 
 try:
-    from evdev import InputDevice, list_devices, ecodes
+    import pygame
 except Exception:
-    InputDevice = None
-    list_devices = None
-    ecodes = None
+    pygame = None
 
 
 
-def evdev_loop() -> bool:
-    """Run the main loop using the evdev library."""
-    if InputDevice is None:
+def pygame_loop() -> bool:
+    """Run the main loop using the pygame library."""
+    if pygame is None:
         return False
 
-    dev = None
-    while dev is None:
-        for path in list_devices():
-            try:
-                candidate = InputDevice(path)
-            except Exception:
-                continue
-            if "Joystick" in candidate.name or "Gamepad" in candidate.name:
-                dev = candidate
-                break
-        if dev is None:
+    pygame.init()
+    pygame.joystick.init()
+    joystick = None
+    while joystick is None:
+        pygame.joystick.quit()
+        pygame.joystick.init()
+        if pygame.joystick.get_count() > 0:
+            joystick = pygame.joystick.Joystick(0)
+            joystick.init()
+        else:
             print("ゲームパッドを待っています…")
             time.sleep(1)
 
-    print(f"{dev.path} を監視しています。Ctrl+Cで終了します。")
-    for event in dev.read_loop():
-        if event.type == ecodes.EV_KEY and event.value == 1:
-            text = fetch_weather()
-            print(text)
-            speak(text)
+    print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
+    try:
+        while True:
+            pygame.event.pump()
+            for event in pygame.event.get():
+                if event.type == pygame.JOYBUTTONDOWN:
+                    text = fetch_weather()
+                    print(text)
+                    speak(text)
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        pygame.quit()
+    return True
 
 
 def main() -> None:
     """Wait for a gamepad button press then speak the weather."""
-    if evdev_loop():
+    if pygame_loop():
         return
-    message = "ゲームパッド操作にはevdevライブラリが必要です。"
+    message = "ゲームパッド操作にはpygameライブラリが必要です。"
     print(message)
     speak(message)
 
