@@ -14,7 +14,7 @@
   - `say`コマンドと対応システム（macOS）
   - `open_jtalk`と`aplay`の組み合わせ（Ubuntu/Debian）
 
- Dockerを使用する場合は、`Dockerfile`で必要なパッケージとダミー音声デバイス(`pulseaudio`)をインストールします。
+- Dockerfileはスモークテスト用のサンプルです。実運用では不要ですが、手順の参考として残しています。
 
  Linux 環境で実行する場合は以下の `apt` パッケージのインストールが必要です。
 
