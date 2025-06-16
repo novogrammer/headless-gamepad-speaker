@@ -52,9 +52,9 @@
 
    ```yaml
    button_actions:
-     "0": time_utils.fetch_time
+     "0": tasks.time_utils.fetch_time
      "1":
-       func: weather.fetch_weather
+       func: tasks.weather.fetch_weather
        kwargs:
          area_code: "270000"
          area_name: "大阪"

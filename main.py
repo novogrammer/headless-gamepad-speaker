@@ -1,8 +1,8 @@
 """Gamepad-controlled speaker for reporting information such as time or weather."""
 
 from speak import speak
-from weather import fetch_weather
-from time_utils import fetch_time
+from tasks.weather import fetch_weather
+from tasks.time_utils import fetch_time
 import importlib
 import yaml
 import time
@@ -28,23 +28,23 @@ def build_action_map(config: dict) -> dict:
         except ValueError:
             continue
 
-        if isinstance(entry, str):
-            mod_name, func_name = entry.rsplit(".", 1)
-            module = importlib.import_module(mod_name)
-            func = getattr(module, func_name)
-            actions[bnum] = (lambda f=func: f())
-        elif isinstance(entry, dict):
+        if isinstance(entry, dict):
             func_path = entry.get("func")
             if not func_path:
                 continue
             args = entry.get("args", [])
             kwargs = entry.get("kwargs", {})
-            mod_name, func_name = func_path.rsplit(".", 1)
-            module = importlib.import_module(mod_name)
-            func = getattr(module, func_name)
-            actions[bnum] = (
-                lambda f=func, a=args, kw=kwargs: f(*a, **kw)
-            )
+        else:
+            func_path = entry
+            args = []
+            kwargs = {}
+
+        mod_name, func_name = func_path.rsplit(".", 1)
+        module = importlib.import_module(mod_name)
+        func = getattr(module, func_name)
+        actions[bnum] = (
+            lambda f=func, a=args, kw=kwargs: f(*a, **kw)
+        )
     return actions
 
 try:
