@@ -1,12 +1,14 @@
 import json
 import urllib.request
 
-AREA_CODE = "270000"
-AREA_NAME = "大阪"
+DEFAULT_AREA_CODE = "270000"
+DEFAULT_AREA_NAME = "大阪"
 INDEX_TODAY = 0
 
 
-def fetch_weather(area_code: str = AREA_CODE, area_name: str = AREA_NAME) -> str:
+def fetch_weather(
+    area_code: str = DEFAULT_AREA_CODE, area_name: str = DEFAULT_AREA_NAME
+) -> str:
     """Fetch today's weather text from the JMA forecast API."""
     url = f"https://www.jma.go.jp/bosai/forecast/data/forecast/{area_code}.json"
     try:
