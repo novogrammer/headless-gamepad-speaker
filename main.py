@@ -85,10 +85,9 @@ def pygame_loop() -> bool:
     config = load_config()
     action_map = build_action_map(config)
     if not action_map:
-        action_map = {
-            0: lambda: fetch_time(),
-            1: lambda: fetch_weather(),
-        }
+        raise RuntimeError(
+            "button_actions が設定されていません。config.yaml を確認してください。"
+        )
 
     try:
         while True:
