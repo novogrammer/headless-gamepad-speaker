@@ -1,7 +1,10 @@
 button_actions:
-  "0": tasks.time.fetch_time
+  "0":
+    file: tasks/time.py
+    func: fetch_time
   "1":
-    func: tasks.weather.fetch_weather
+    file: tasks/weather.py
+    func: fetch_weather
     kwargs:
       area_code: "270000"
       area_name: "大阪"

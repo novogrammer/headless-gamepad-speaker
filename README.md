@@ -55,9 +55,12 @@
 
    ```yaml
    button_actions:
-     "0": tasks.time.fetch_time
+     "0":
+       file: tasks/time.py
+       func: fetch_time
      "1":
-       func: tasks.weather.fetch_weather
+       file: tasks/weather.py
+       func: fetch_weather
        kwargs:
          area_code: "270000"
          area_name: "大阪"
@@ -69,10 +72,9 @@
 
 天気予報は気象庁から取得します。地域や割り当てる処理を変更したい場合は、
 `config.default.yaml` をコピーした `config.yaml` の `button_actions` セクション
-を編集してください。各エントリはモジュールと関数名を文字列で指定するか、
-`func`/`args`/`kwargs` を持つマッピングとして記述できます。
-`config.yaml` は `.gitignore` に登録してあるため、個別設定をコミットせずに運
-用できます。
+を編集してください。各エントリでは必ず `file` と `func` を指定し、必要に応じて
+`args` と `kwargs` を追加します。`config.yaml` は `.gitignore` に登録してあるた
+め、個別設定をコミットせずに運用できます。
 
 ## ライセンス
 

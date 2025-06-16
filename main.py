@@ -1,7 +1,8 @@
 """Gamepad-controlled speaker for reporting information such as time or weather."""
 
 from speak import speak
-import importlib
+import importlib.util
+from pathlib import Path
 import yaml
 import time
 import sys
@@ -18,8 +19,22 @@ def load_config(path: str = "config.yaml", default_path: str = "config.default.y
     return {}
 
 
+def load_function(file_path: str, func_name: str):
+    """Load a function object from the given file."""
+    spec = importlib.util.spec_from_file_location(Path(file_path).stem, file_path)
+    if not spec or not spec.loader:
+        raise ImportError(f"{file_path} を読み込めません")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return getattr(module, func_name)
+
+
 def build_action_map(config: dict) -> dict:
-    """Build button->callable mapping from configuration."""
+    """Build button->callable mapping from configuration.
+
+    Each entry should contain ``file`` and ``func`` keys with optional ``args``
+    and ``kwargs``.
+    """
     actions = {}
     for button, entry in config.get("button_actions", {}).items():
         try:
@@ -27,20 +42,17 @@ def build_action_map(config: dict) -> dict:
         except ValueError:
             continue
 
-        if isinstance(entry, dict):
-            func_path = entry.get("func")
-            if not func_path:
-                continue
-            args = entry.get("args", [])
-            kwargs = entry.get("kwargs", {})
-        else:
-            func_path = entry
-            args = []
-            kwargs = {}
+        if not isinstance(entry, dict):
+            continue
 
-        mod_name, func_name = func_path.rsplit(".", 1)
-        module = importlib.import_module(mod_name)
-        func = getattr(module, func_name)
+        file_path = entry.get("file")
+        func_name = entry.get("func")
+        if not file_path or not func_name:
+            continue
+        args = entry.get("args", [])
+        kwargs = entry.get("kwargs", {})
+
+        func = load_function(file_path, func_name)
         actions[bnum] = (
             lambda f=func, a=args, kw=kwargs: f(*a, **kw)
         )
