@@ -3,7 +3,47 @@
 from speak import speak
 from weather import fetch_weather
 from time_utils import fetch_time
+import importlib
+import yaml
 import time
+
+
+def load_config(path: str = "config.yaml") -> dict:
+    """Load configuration from YAML file if it exists."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    except FileNotFoundError:
+        return {}
+
+
+def build_action_map(config: dict) -> dict:
+    """Build button->callable mapping from configuration."""
+    actions = {}
+    for button, entry in config.get("button_actions", {}).items():
+        try:
+            bnum = int(button)
+        except ValueError:
+            continue
+
+        if isinstance(entry, str):
+            mod_name, func_name = entry.rsplit(".", 1)
+            module = importlib.import_module(mod_name)
+            func = getattr(module, func_name)
+            actions[bnum] = (lambda f=func: f())
+        elif isinstance(entry, dict):
+            func_path = entry.get("func")
+            if not func_path:
+                continue
+            args = entry.get("args", [])
+            kwargs = entry.get("kwargs", {})
+            mod_name, func_name = func_path.rsplit(".", 1)
+            module = importlib.import_module(mod_name)
+            func = getattr(module, func_name)
+            actions[bnum] = (
+                lambda f=func, a=args, kw=kwargs: f(*a, **kw)
+            )
+    return actions
 
 try:
     import pygame
@@ -40,6 +80,14 @@ def pygame_loop() -> bool:
         print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
         return joystick
 
+    config = load_config()
+    action_map = build_action_map(config)
+    if not action_map:
+        action_map = {
+            0: lambda: fetch_time(),
+            1: lambda: fetch_weather(),
+        }
+
     try:
         while True:
             joystick = wait_and_notify()
@@ -50,12 +98,8 @@ def pygame_loop() -> bool:
                     disconnected = True
                 for event in pygame.event.get():
                     if event.type == pygame.JOYBUTTONDOWN:
-                        if event.button == 0:
-                            text = fetch_time()
-                        elif event.button == 1:
-                            text = fetch_weather()
-                        else:
-                            text = None
+                        action = action_map.get(event.button)
+                        text = action() if action else None
                         if text:
                             print(text)
                             speak(text)

@@ -41,17 +41,28 @@
    pip install -r requirements.txt
    ```
 3. `say`または`open_jtalk`と`aplay`が使用できることを確認します。
-4. ゲームパッドを接続し、メインプログラムを実行:
+4. `config.yaml` を必要に応じて編集します (デフォルトは時刻と大阪の天気を読み上げます)。
+5. ゲームパッドを接続し、メインプログラムを実行:
 
    ```bash
    python main.py
    ```
 
-4. ボタン **0** を押すと現在時刻、ボタン **1** を押すと大阪の天気(`weather.py`で設定)を読み上げます。
+   ```yaml
+   button_actions:
+     "0": time_utils.fetch_time
+     "1":
+       func: weather.fetch_weather
+       kwargs:
+         area_code: "270000"
+         area_name: "大阪"
+   ```
+
+6. ボタン **0** を押すと現在時刻、ボタン **1** を押すと設定した地域の天気を読み上げます。
 
 ## カスタマイズ
 
-天気予報は気象庁から取得します。地域を変更する場合は`weather.py`の`AREA_CODE`と`AREA_NAME`を更新してください。
+天気予報は気象庁から取得します。地域や割り当てる処理を変更したい場合は`config.yaml`の`button_actions`セクションを編集します。各エントリはモジュールと関数名を文字列で指定するか、`func`/`args`/`kwargs`を持つマッピングとして記述できます。
 
 ## ライセンス
 
