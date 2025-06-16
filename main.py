@@ -8,13 +8,15 @@ import yaml
 import time
 
 
-def load_config(path: str = "config.yaml") -> dict:
-    """Load configuration from YAML file if it exists."""
-    try:
-        with open(path, encoding="utf-8") as f:
-            return yaml.safe_load(f) or {}
-    except FileNotFoundError:
-        return {}
+def load_config(path: str = "config.yaml", default_path: str = "config.default.yaml") -> dict:
+    """Load configuration, falling back to a default file if necessary."""
+    for file in (path, default_path):
+        try:
+            with open(file, encoding="utf-8") as f:
+                return yaml.safe_load(f) or {}
+        except FileNotFoundError:
+            continue
+    return {}
 
 
 def build_action_map(config: dict) -> dict:
