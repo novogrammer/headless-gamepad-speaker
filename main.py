@@ -1,8 +1,6 @@
 """Gamepad-controlled speaker for reporting information such as time or weather."""
 
 from speak import speak
-from tasks.weather import fetch_weather
-from tasks.time_utils import fetch_time
 import importlib
 import yaml
 import time
