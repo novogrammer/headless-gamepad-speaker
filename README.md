@@ -52,7 +52,7 @@
 
    ```yaml
    button_actions:
-     "0": tasks.time_utils.fetch_time
+     "0": tasks.time.fetch_time
      "1":
        func: tasks.weather.fetch_weather
        kwargs:
