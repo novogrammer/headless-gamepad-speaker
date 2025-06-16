@@ -44,13 +44,11 @@
 4. `config.default.yaml` を `config.yaml` としてコピーし、必要に応じて編集します
    (デフォルトは時刻と大阪の天気を読み上げます)。`button_actions` セクション
    を削除すると起動時にエラーになります。
-5. ゲームパッドを接続し、メインプログラムを実行します。`config.yaml` のパスを
-   引数として渡すと、任意の場所に配置した設定ファイルを読み込めます
-   (省略した場合は `config.yaml` が存在すればそれを、なければ
-   `config.default.yaml` を自動で使用します)。
+5. ゲームパッドを接続し、メインプログラムを実行します。`config.yaml` が存在
+   すればそれを、なければ `config.default.yaml` を自動で読み込みます。
 
    ```bash
-   python main.py config.yaml
+   python main.py
    ```
 
    ```yaml
