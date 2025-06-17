@@ -8,3 +8,8 @@ button_actions:
     kwargs:
       area_code: "270000"
       area_name: "大阪"
+  # private examples
+  # "2":
+  #   file: tasks/private/custom.py
+  #   func: secret_action
+
