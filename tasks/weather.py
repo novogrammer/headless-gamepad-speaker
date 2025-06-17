@@ -39,7 +39,7 @@ def _fetch_weather_text(
     return weathers[index].replace("\u3000", "、")
 
 
-def fetch_today_weather(
+def fetch_weather_today(
     area_code: str = DEFAULT_AREA_CODE, area_name: str = DEFAULT_AREA_NAME
 ) -> str:
     """Fetch today's weather text from the JMA forecast API."""
