@@ -4,5 +4,3 @@ venv/
 env/
 
 config.yaml
-tasks/private/*
-!tasks/private/.gitkeep

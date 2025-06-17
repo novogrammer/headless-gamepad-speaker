@@ -1,6 +1,6 @@
 # ヘッドレスゲームパッドスピーカー
 
-このプロジェクトはゲームパッドのボタンを押すと、現在の天気や時刻を読み上げる小さなPythonアプリを提供します。
+このプロジェクトはゲームパッドのボタンを押すと、現在の天気や時刻を読み上げる小さなPythonアプリを提供します。`App` クラスをライブラリとして利用でき、付属の `main.py` はその使用例です。
 `pygame`で入力を処理し、macOSでは`say`コマンド、Linuxでは`open_jtalk`と`aplay`を使って音声を出力します。
 実行にはゲームパッドとスピーカーが必須です。
 
@@ -41,50 +41,40 @@
    pip install -r requirements.txt
    ```
 3. `say`または`open_jtalk`と`aplay`が使用できることを確認します。
-4. `config.default.yaml` を `config.yaml` としてコピーし、必要に応じて編集します
-   (デフォルトは時刻と大阪の天気を読み上げます)。`button_actions` セクション
-   を削除すると起動時にエラーになります。
-5. ゲームパッドを接続し、メインプログラムを実行します。`config.yaml` が存在
-   すればそれを、なければ `config.default.yaml` を自動で読み込みます。
 
-```bash
-python main.py
-```
+4. ゲームパッドを接続し、サンプルスクリプト `main.py` を実行します。
 
-```yaml
-button_actions:
-  "0":
-    file: tasks/time.py
-    func: fetch_time
-  "1":
-    file: tasks/weather.py
-    func: fetch_weather_today
-    kwargs:
-      area_code: "270000"
-      area_name: "大阪"
-  "2":
-    file: tasks/weather.py
-    func: fetch_weather_tomorrow
-    kwargs:
-      area_code: "270000"
-      area_name: "大阪"
-  "3":
-    file: tasks/weather.py
-    func: fetch_weather_day_after_tomorrow
-    kwargs:
-      area_code: "270000"
-      area_name: "大阪"
-```
+   ```bash
+   python main.py
+   ```
 
-6. ボタン **0** を押すと現在時刻、ボタン **1**〜**3** を押すと設定した地域の天気を読み上げます。
+
+デフォルトではボタン **0** が現在時刻、ボタン **1**〜**3** が大阪の天気を読み上げます。
 
 ## カスタマイズ
 
-天気予報は気象庁から取得します。地域や割り当てる処理を変更したい場合は、
-`config.default.yaml` をコピーした `config.yaml` の `button_actions` セクション
-を編集してください。各エントリでは必ず `file` と `func` を指定し、必要に応じて
-`args` と `kwargs` を追加します。`config.yaml` は `.gitignore` に登録してあるた
-め、個別設定をコミットせずに運用できます。
+天気予報は気象庁から取得します。ボタンに割り当てる処理を変更したい場合は、`main.py` を編集するか、次のようなスクリプトを作成してください。
+
+```python
+from headless_gamepad_speaker import App
+from functools import partial
+from headless_gamepad_speaker.tasks import fetch_time, fetch_weather_today
+
+AREA_CODE = "130000"  # example: Tokyo
+AREA_NAME = "東京"
+
+app = App()
+app.register_button(0, fetch_time)
+app.register_button(
+    1,
+    partial(
+        fetch_weather_today,
+        area_code=AREA_CODE,
+        area_name=AREA_NAME,
+    ),
+)
+app.run()
+```
 
 ## ライセンス
 
