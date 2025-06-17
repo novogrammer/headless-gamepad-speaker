@@ -4,7 +4,19 @@ button_actions:
     func: fetch_time
   "1":
     file: tasks/weather.py
-    func: fetch_weather
+    func: fetch_weather_today
+    kwargs:
+      area_code: "270000"
+      area_name: "大阪"
+  "2":
+    file: tasks/weather.py
+    func: fetch_weather_tomorrow
+    kwargs:
+      area_code: "270000"
+      area_name: "大阪"
+  "3":
+    file: tasks/weather.py
+    func: fetch_weather_day_after_tomorrow
     kwargs:
       area_code: "270000"
       area_name: "大阪"

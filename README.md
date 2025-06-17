@@ -58,13 +58,25 @@
        func: fetch_time
      "1":
        file: tasks/weather.py
-       func: fetch_weather
+       func: fetch_weather_today
        kwargs:
          area_code: "270000"
          area_name: "大阪"
-   ```
+     "2":
+       file: tasks/weather.py
+       func: fetch_weather_tomorrow
+       kwargs:
+         area_code: "270000"
+         area_name: "大阪"
+     "3":
+       file: tasks/weather.py
+       func: fetch_weather_day_after_tomorrow
+       kwargs:
+         area_code: "270000"
+         area_name: "大阪"
+  ```
 
-6. ボタン **0** を押すと現在時刻、ボタン **1** を押すと設定した地域の天気を読み上げます。
+6. ボタン **0** を押すと現在時刻、ボタン **1**〜**3** を押すと設定した地域の天気を読み上げます。
 
 ## カスタマイズ
 
