@@ -58,7 +58,7 @@
        func: fetch_time
      "1":
        file: tasks/weather.py
-       func: fetch_weather
+       func: fetch_today_weather
        kwargs:
          area_code: "270000"
          area_name: "大阪"
