@@ -1,2 +1,2 @@
-pygame
-PyYAML
+pygame==2.6.1
+PyYAML==6.0.2
