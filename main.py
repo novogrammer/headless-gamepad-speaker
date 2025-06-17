@@ -19,8 +19,13 @@ def load_config(path: str = "config.yaml", default_path: str = "config.default.y
 
 
 def load_function(file_path: str, func_name: str):
-    """Load a function object from the given file."""
-    spec = importlib.util.spec_from_file_location(Path(file_path).stem, file_path)
+    """Load a function object from the given file within the tasks directory."""
+    path = Path(file_path).resolve()
+    tasks_root = (Path(__file__).parent / "tasks").resolve()
+    if not path.is_relative_to(tasks_root):
+        raise ValueError(f"{file_path} は許可されていない場所にあります")
+
+    spec = importlib.util.spec_from_file_location(path.stem, path)
     if not spec or not spec.loader:
         raise ImportError(f"{file_path} を読み込めません")
     module = importlib.util.module_from_spec(spec)
