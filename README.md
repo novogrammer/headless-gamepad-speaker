@@ -47,34 +47,34 @@
 5. ゲームパッドを接続し、メインプログラムを実行します。`config.yaml` が存在
    すればそれを、なければ `config.default.yaml` を自動で読み込みます。
 
-   ```bash
-   python main.py
-   ```
+```bash
+python main.py
+```
 
-   ```yaml
-   button_actions:
-     "0":
-       file: tasks/time.py
-       func: fetch_time
-     "1":
-       file: tasks/weather.py
-       func: fetch_weather_today
-       kwargs:
-         area_code: "270000"
-         area_name: "大阪"
-     "2":
-       file: tasks/weather.py
-       func: fetch_weather_tomorrow
-       kwargs:
-         area_code: "270000"
-         area_name: "大阪"
-     "3":
-       file: tasks/weather.py
-       func: fetch_weather_day_after_tomorrow
-       kwargs:
-         area_code: "270000"
-         area_name: "大阪"
-  ```
+```yaml
+button_actions:
+  "0":
+    file: tasks/time.py
+    func: fetch_time
+  "1":
+    file: tasks/weather.py
+    func: fetch_weather_today
+    kwargs:
+      area_code: "270000"
+      area_name: "大阪"
+  "2":
+    file: tasks/weather.py
+    func: fetch_weather_tomorrow
+    kwargs:
+      area_code: "270000"
+      area_name: "大阪"
+  "3":
+    file: tasks/weather.py
+    func: fetch_weather_day_after_tomorrow
+    kwargs:
+      area_code: "270000"
+      area_name: "大阪"
+```
 
 6. ボタン **0** を押すと現在時刻、ボタン **1**〜**3** を押すと設定した地域の天気を読み上げます。
 
