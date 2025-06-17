@@ -56,11 +56,11 @@
 天気予報は気象庁から取得します。ボタンに割り当てる処理を変更したい場合は、`main.py` を編集するか、次のようなスクリプトを作成してください。
 
 ```python
-from main import GamepadApp
+from main import GamepadSpeakerApp
 from tasks.time import fetch_time
 from tasks.weather import fetch_weather_today
 
-app = GamepadApp()
+app = GamepadSpeakerApp()
 app.register_button(0, fetch_time)
 app.register_button(1, fetch_weather_today)
 app.run()

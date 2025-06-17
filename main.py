@@ -11,7 +11,7 @@ except Exception:
     pygame = None
 
 
-class GamepadApp:
+class GamepadSpeakerApp:
     """Register button handlers and dispatch events via pygame."""
 
     def __init__(self) -> None:
@@ -94,7 +94,7 @@ def main() -> None:
         fetch_weather_day_after_tomorrow,
     )
 
-    app = GamepadApp()
+    app = GamepadSpeakerApp()
     app.register_button(0, fetch_time)
     app.register_button(1, fetch_weather_today)
     app.register_button(2, fetch_weather_tomorrow)
