@@ -17,6 +17,7 @@ def main() -> None:
     app.register_button(1, fetch_weather_today)
     app.register_button(2, fetch_weather_tomorrow)
     app.register_button(3, fetch_weather_day_after_tomorrow)
+    app.register_button(4, lambda: "こんにちは")
     app.run()
 
 
