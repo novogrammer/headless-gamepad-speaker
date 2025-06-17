@@ -4,5 +4,3 @@ venv/
 env/
 
 config.yaml
-headless_gamepad_speaker/tasks/private/*
-!headless_gamepad_speaker/tasks/private/.gitkeep
