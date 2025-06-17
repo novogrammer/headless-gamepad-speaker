@@ -1,5 +1,4 @@
 import subprocess
-import shlex
 import shutil
 
 
@@ -9,19 +8,23 @@ def command_exists(cmd: str) -> bool:
 
 
 def speak_with_open_jtalk(text: str) -> None:
-    """Speak text using open_jtalk and aplay."""
-    safe_text = shlex.quote(text)
-    cmd = [
-        f"echo {safe_text}",
-        "|",
+    """Speak text using open_jtalk and aplay without invoking a shell."""
+    jtalk_cmd = [
         "open_jtalk",
-        "-x /var/lib/mecab/dic/open-jtalk/naist-jdic",
-        "-m /usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice",
-        "-ow /dev/stdout",
-        "|",
-        "aplay --quiet",
+        "-x",
+        "/var/lib/mecab/dic/open-jtalk/naist-jdic",
+        "-m",
+        "/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice",
+        "-ow",
+        "/dev/stdout",
     ]
-    subprocess.run(" ".join(cmd), shell=True, check=False)
+    audio = subprocess.run(
+        jtalk_cmd,
+        input=text.encode(),
+        stdout=subprocess.PIPE,
+        check=False,
+    )
+    subprocess.run(["aplay", "--quiet"], input=audio.stdout, check=False)
 
 
 def speak_with_say(text: str) -> None:
