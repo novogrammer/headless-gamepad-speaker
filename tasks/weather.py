@@ -13,8 +13,9 @@ def fetch_weather(
     url = f"https://www.jma.go.jp/bosai/forecast/data/forecast/{area_code}.json"
     try:
         with urllib.request.urlopen(url, timeout=5) as response:
-            if getattr(response, "status", 200) != 200:
-                raise RuntimeError(f"API request failed with status {response.status}")
+            status = getattr(response, "status", None)
+            if status != 200:
+                raise RuntimeError(f"API request failed with status {status}")
             data = json.load(response)
 
         if not isinstance(data, list) or not data:
