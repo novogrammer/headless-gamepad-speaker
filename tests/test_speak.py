@@ -59,3 +59,30 @@ def test_speak_with_open_jtalk_uses_env(monkeypatch):
         "/dev/stdout",
     ]
     assert calls[1] == ["aplay", "--quiet"]
+
+
+def test_speak_with_open_jtalk_params(monkeypatch):
+    calls = []
+
+    def fake_run(cmd, *a, **k):
+        calls.append(cmd)
+        return SimpleNamespace(stdout=b'audio')
+
+    monkeypatch.setenv("OPEN_JTALK_DICT", "/env/dic")
+    monkeypatch.setenv("OPEN_JTALK_VOICE", "/env/voice")
+    monkeypatch.setattr(speak_module.subprocess, "run", fake_run)
+    speak_module.speak_with_open_jtalk(
+        "hello",
+        dic_path="/opt/dic",
+        voice_path="/opt/voice",
+    )
+    assert calls[0] == [
+        "open_jtalk",
+        "-x",
+        "/opt/dic",
+        "-m",
+        "/opt/voice",
+        "-ow",
+        "/dev/stdout",
+    ]
+    assert calls[1] == ["aplay", "--quiet"]
