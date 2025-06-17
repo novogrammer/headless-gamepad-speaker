@@ -11,7 +11,7 @@ except Exception:
     pygame = None
 
 
-class GamepadSpeakerApp:
+class App:
     """Register button handlers and dispatch events via pygame."""
 
     def __init__(self) -> None:

@@ -1,6 +1,6 @@
 # ヘッドレスゲームパッドスピーカー
 
-このプロジェクトはゲームパッドのボタンを押すと、現在の天気や時刻を読み上げる小さなPythonアプリを提供します。`GamepadSpeakerApp` クラスをライブラリとして利用でき、付属の `main.py` はその使用例です。
+このプロジェクトはゲームパッドのボタンを押すと、現在の天気や時刻を読み上げる小さなPythonアプリを提供します。`App` クラスをライブラリとして利用でき、付属の `main.py` はその使用例です。
 `pygame`で入力を処理し、macOSでは`say`コマンド、Linuxでは`open_jtalk`と`aplay`を使って音声を出力します。
 実行にはゲームパッドとスピーカーが必須です。
 
@@ -56,10 +56,10 @@
 天気予報は気象庁から取得します。ボタンに割り当てる処理を変更したい場合は、`main.py` を編集するか、次のようなスクリプトを作成してください。
 
 ```python
-from headless_gamepad_speaker import GamepadSpeakerApp
+from headless_gamepad_speaker import App
 from headless_gamepad_speaker.tasks import fetch_time, fetch_weather_today
 
-app = GamepadSpeakerApp()
+app = App()
 app.register_button(0, fetch_time)
 app.register_button(1, fetch_weather_today)
 app.run()

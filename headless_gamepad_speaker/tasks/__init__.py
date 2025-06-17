@@ -1,4 +1,4 @@
-"""Common tasks for GamepadSpeakerApp."""
+"""Common tasks for :class:`headless_gamepad_speaker.App`."""
 from .time import fetch_time
 from .weather import (
     fetch_weather_today,

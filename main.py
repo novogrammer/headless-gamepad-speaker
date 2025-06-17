@@ -1,7 +1,7 @@
-"""Entry point to run GamepadSpeakerApp with default button mappings."""
+"""Entry point to run ``App`` with default button mappings."""
 from __future__ import annotations
 
-from headless_gamepad_speaker import GamepadSpeakerApp
+from headless_gamepad_speaker import App
 from headless_gamepad_speaker.tasks import fetch_time
 from headless_gamepad_speaker.tasks import (
     fetch_weather_today,
@@ -12,7 +12,7 @@ from headless_gamepad_speaker.tasks import (
 
 def main() -> None:
     """Example setup mapping time and weather functions to buttons."""
-    app = GamepadSpeakerApp()
+    app = App()
     app.register_button(0, fetch_time)
     app.register_button(1, fetch_weather_today)
     app.register_button(2, fetch_weather_tomorrow)
