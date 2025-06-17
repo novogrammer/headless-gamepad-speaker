@@ -54,6 +54,7 @@
 ## カスタマイズ
 
 天気予報は気象庁から取得します。ボタンに割り当てる処理を変更したい場合は、`main.py` を編集するか、次のようなスクリプトを作成してください。
+`App` の ``speak_func`` 引数を使うと、音声出力処理も自由に差し替えられます。
 
 ```python
 from headless_gamepad_speaker import App
@@ -74,6 +75,21 @@ app.register_button(
     ),
 )
 app.run()
+```
+
+### 任意の音声合成の利用
+
+`App` は `speak_func` 引数で音声出力用の関数を差し替えられます。既定では
+`headless_gamepad_speaker.speak` を使用しますが、以下のように独自の関数を
+指定することもできます。
+
+```python
+from headless_gamepad_speaker import App
+
+def debug_speak(text: str) -> None:
+    print(f"VOICE: {text}")
+
+app = App(speak_func=debug_speak)
 ```
 
 ## ライセンス

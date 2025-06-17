@@ -14,8 +14,10 @@ except Exception:
 class App:
     """Register button handlers and dispatch events via pygame."""
 
-    def __init__(self) -> None:
+    def __init__(self, speak_func: Callable[[str], None] = speak) -> None:
+        """Initialize with optional custom speak function."""
         self._handlers: Dict[int, Callable[[], str]] = {}
+        self._speak = speak_func
 
     def register_button(self, num: int, func: Callable[[], str]) -> None:
         """Register ``func`` as the handler for button ``num``."""
@@ -40,7 +42,7 @@ class App:
         if pygame is None:
             message = "ゲームパッド操作にはpygameライブラリが必要です。"
             print(message)
-            speak(message)
+            self._speak(message)
             return
 
         pygame.init()
@@ -62,7 +64,7 @@ class App:
                                 text = handler()
                                 if text:
                                     print(text)
-                                    speak(text)
+                                    self._speak(text)
                         elif (
                             hasattr(pygame, "JOYDEVICEREMOVED")
                             and event.type == pygame.JOYDEVICEREMOVED
