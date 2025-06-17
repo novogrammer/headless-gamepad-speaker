@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Callable, Dict
 import time
-from speak import speak
+from .speak import speak
 
 try:
     import pygame

@@ -1,9 +1,9 @@
 """Entry point to run GamepadSpeakerApp with default button mappings."""
 from __future__ import annotations
 
-from gamepad_speaker_app import GamepadSpeakerApp
-from tasks.time import fetch_time
-from tasks.weather import (
+from headless_gamepad_speaker import GamepadSpeakerApp
+from headless_gamepad_speaker.tasks import fetch_time
+from headless_gamepad_speaker.tasks import (
     fetch_weather_today,
     fetch_weather_tomorrow,
     fetch_weather_day_after_tomorrow,
