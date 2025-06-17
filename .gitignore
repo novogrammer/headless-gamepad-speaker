@@ -2,3 +2,7 @@ __pycache__
 .venv/
 venv/
 env/
+
+config.yaml
+tasks/private/*
+!tasks/private/.gitkeep

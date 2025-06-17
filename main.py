@@ -1,9 +1,61 @@
 """Gamepad-controlled speaker for reporting information such as time or weather."""
 
 from speak import speak
-from weather import fetch_weather
-from time_utils import fetch_time
+import importlib.util
+from pathlib import Path
+import yaml
 import time
+
+
+def load_config(path: str = "config.yaml", default_path: str = "config.default.yaml") -> dict:
+    """Load configuration, falling back to a default file if necessary."""
+    for file in (path, default_path):
+        try:
+            with open(file, encoding="utf-8") as f:
+                return yaml.safe_load(f) or {}
+        except FileNotFoundError:
+            continue
+    return {}
+
+
+def load_function(file_path: str, func_name: str):
+    """Load a function object from the given file."""
+    spec = importlib.util.spec_from_file_location(Path(file_path).stem, file_path)
+    if not spec or not spec.loader:
+        raise ImportError(f"{file_path} を読み込めません")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return getattr(module, func_name)
+
+
+def build_action_map(config: dict) -> dict:
+    """Build button->callable mapping from configuration.
+
+    Each entry should contain ``file`` and ``func`` keys with optional ``args``
+    and ``kwargs``.
+    """
+    actions = {}
+    for button, entry in config.get("button_actions", {}).items():
+        try:
+            bnum = int(button)
+        except ValueError:
+            continue
+
+        if not isinstance(entry, dict):
+            continue
+
+        file_path = entry.get("file")
+        func_name = entry.get("func")
+        if not file_path or not func_name:
+            continue
+        args = entry.get("args", [])
+        kwargs = entry.get("kwargs", {})
+
+        func = load_function(file_path, func_name)
+        actions[bnum] = (
+            lambda f=func, a=args, kw=kwargs: f(*a, **kw)
+        )
+    return actions
 
 try:
     import pygame
@@ -40,6 +92,13 @@ def pygame_loop() -> bool:
         print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
         return joystick
 
+    config = load_config()
+    action_map = build_action_map(config)
+    if not action_map:
+        raise RuntimeError(
+            "button_actions が設定されていません。config.yaml を確認してください。"
+        )
+
     try:
         while True:
             joystick = wait_and_notify()
@@ -50,12 +109,8 @@ def pygame_loop() -> bool:
                     disconnected = True
                 for event in pygame.event.get():
                     if event.type == pygame.JOYBUTTONDOWN:
-                        if event.button == 0:
-                            text = fetch_time()
-                        elif event.button == 1:
-                            text = fetch_weather()
-                        else:
-                            text = None
+                        action = action_map.get(event.button)
+                        text = action() if action else None
                         if text:
                             print(text)
                             speak(text)

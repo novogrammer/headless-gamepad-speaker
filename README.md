@@ -41,17 +41,38 @@
    pip install -r requirements.txt
    ```
 3. `say`または`open_jtalk`と`aplay`が使用できることを確認します。
-4. ゲームパッドを接続し、メインプログラムを実行:
+4. `config.default.yaml` を `config.yaml` としてコピーし、必要に応じて編集します
+   (デフォルトは時刻と大阪の天気を読み上げます)。`button_actions` セクション
+   を削除すると起動時にエラーになります。
+5. ゲームパッドを接続し、メインプログラムを実行します。`config.yaml` が存在
+   すればそれを、なければ `config.default.yaml` を自動で読み込みます。
 
    ```bash
    python main.py
    ```
 
-4. ボタン **0** を押すと現在時刻、ボタン **1** を押すと大阪の天気(`weather.py`で設定)を読み上げます。
+   ```yaml
+   button_actions:
+     "0":
+       file: tasks/time.py
+       func: fetch_time
+     "1":
+       file: tasks/weather.py
+       func: fetch_weather
+       kwargs:
+         area_code: "270000"
+         area_name: "大阪"
+   ```
+
+6. ボタン **0** を押すと現在時刻、ボタン **1** を押すと設定した地域の天気を読み上げます。
 
 ## カスタマイズ
 
-天気予報は気象庁から取得します。地域を変更する場合は`weather.py`の`AREA_CODE`と`AREA_NAME`を更新してください。
+天気予報は気象庁から取得します。地域や割り当てる処理を変更したい場合は、
+`config.default.yaml` をコピーした `config.yaml` の `button_actions` セクション
+を編集してください。各エントリでは必ず `file` と `func` を指定し、必要に応じて
+`args` と `kwargs` を追加します。`config.yaml` は `.gitignore` に登録してあるた
+め、個別設定をコミットせずに運用できます。
 
 ## ライセンス
 
