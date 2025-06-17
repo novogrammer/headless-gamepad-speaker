@@ -8,15 +8,41 @@ from headless_gamepad_speaker.tasks import (
     fetch_weather_tomorrow,
     fetch_weather_day_after_tomorrow,
 )
+from functools import partial
+
+# Example area: Tokyo (130000)
+AREA_CODE = "130000"
+AREA_NAME = "東京"
 
 
 def main() -> None:
     """Example setup mapping time and weather functions to buttons."""
     app = App()
     app.register_button(0, fetch_time)
-    app.register_button(1, fetch_weather_today)
-    app.register_button(2, fetch_weather_tomorrow)
-    app.register_button(3, fetch_weather_day_after_tomorrow)
+    app.register_button(
+        1,
+        partial(
+            fetch_weather_today,
+            area_code=AREA_CODE,
+            area_name=AREA_NAME,
+        ),
+    )
+    app.register_button(
+        2,
+        partial(
+            fetch_weather_tomorrow,
+            area_code=AREA_CODE,
+            area_name=AREA_NAME,
+        ),
+    )
+    app.register_button(
+        3,
+        partial(
+            fetch_weather_day_after_tomorrow,
+            area_code=AREA_CODE,
+            area_name=AREA_NAME,
+        ),
+    )
     app.run()
 
 
