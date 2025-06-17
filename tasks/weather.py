@@ -6,6 +6,7 @@ DEFAULT_AREA_NAME = "大阪"
 # Weather indices returned by the JMA API
 INDEX_TODAY = 0
 INDEX_TOMORROW = 1
+INDEX_DAY_AFTER_TOMORROW = 2
 
 
 def _fetch_weather_text(
@@ -46,6 +47,30 @@ def fetch_weather_today(
     try:
         today = _fetch_weather_text(INDEX_TODAY, area_code, area_name)
         return f"{area_name}の今日の天気は「{today}」でしょう。"
+    except Exception as e:
+        print("天気取得エラー:", getattr(e, "message", str(e)))
+        return "天気情報の取得に失敗しました"
+
+
+def fetch_weather_tomorrow(
+    area_code: str = DEFAULT_AREA_CODE, area_name: str = DEFAULT_AREA_NAME
+) -> str:
+    """Fetch tomorrow's weather text from the JMA forecast API."""
+    try:
+        tomorrow = _fetch_weather_text(INDEX_TOMORROW, area_code, area_name)
+        return f"{area_name}の明日の天気は「{tomorrow}」でしょう。"
+    except Exception as e:
+        print("天気取得エラー:", getattr(e, "message", str(e)))
+        return "天気情報の取得に失敗しました"
+
+
+def fetch_weather_day_after_tomorrow(
+    area_code: str = DEFAULT_AREA_CODE, area_name: str = DEFAULT_AREA_NAME
+) -> str:
+    """Fetch the day-after-tomorrow's weather text from the JMA forecast API."""
+    try:
+        dat = _fetch_weather_text(INDEX_DAY_AFTER_TOMORROW, area_code, area_name)
+        return f"{area_name}の明後日の天気は「{dat}」でしょう。"
     except Exception as e:
         print("天気取得エラー:", getattr(e, "message", str(e)))
         return "天気情報の取得に失敗しました"
