@@ -92,6 +92,14 @@ def debug_speak(text: str) -> None:
 app = App(speak_func=debug_speak)
 ```
 
+### open_jtalkの設定
+
+`open_jtalk` を使用する際、辞書ディレクトリと音声ファイルのパスは
+`OPEN_JTALK_DICT` と `OPEN_JTALK_VOICE` 環境変数で変更できます。あるいは
+`speak_with_open_jtalk()` に ``dic_path`` と ``voice_path`` 引数を渡して指定
+することも可能です。
+
+
 ## ライセンス
 
 このプロジェクトは MIT ライセンスのもとで配布しています。

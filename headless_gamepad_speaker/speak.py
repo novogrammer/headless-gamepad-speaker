@@ -1,3 +1,4 @@
+import os
 import subprocess
 import shutil
 
@@ -7,14 +8,27 @@ def command_exists(cmd: str) -> bool:
     return shutil.which(cmd) is not None
 
 
-def speak_with_open_jtalk(text: str) -> None:
+def speak_with_open_jtalk(
+    text: str,
+    *,
+    dic_path: str | None = None,
+    voice_path: str | None = None,
+) -> None:
     """Speak text using open_jtalk and aplay without invoking a shell."""
+    dic = dic_path or os.getenv(
+        "OPEN_JTALK_DICT",
+        "/var/lib/mecab/dic/open-jtalk/naist-jdic",
+    )
+    voice = voice_path or os.getenv(
+        "OPEN_JTALK_VOICE",
+        "/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice",
+    )
     jtalk_cmd = [
         "open_jtalk",
         "-x",
-        "/var/lib/mecab/dic/open-jtalk/naist-jdic",
+        dic,
         "-m",
-        "/usr/share/hts-voice/nitech-jp-atr503-m001/nitech_jp_atr503_m001.htsvoice",
+        voice,
         "-ow",
         "/dev/stdout",
     ]
