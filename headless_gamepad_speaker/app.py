@@ -17,15 +17,6 @@ class App:
     def __init__(self) -> None:
         self._handlers: Dict[int, Callable[[], str]] = {}
 
-    def button(self, num: int) -> Callable[[Callable[[], str]], Callable[[], str]]:
-        """Decorator to register a handler for a gamepad button."""
-
-        def decorator(func: Callable[[], str]) -> Callable[[], str]:
-            self._handlers[num] = func
-            return func
-
-        return decorator
-
     def register_button(self, num: int, func: Callable[[], str]) -> None:
         """Register ``func`` as the handler for button ``num``."""
         self._handlers[num] = func
