@@ -1,8 +1,5 @@
 """Headless Gamepad Speaker library."""
-from .app import App as App
-
-# Backwards compatibility alias
-GamepadSpeakerApp = App
+from .app import App
 from .tasks import (
     fetch_time,
     fetch_weather_today,
@@ -11,7 +8,6 @@ from .tasks import (
 )
 __all__ = [
     "App",
-    "GamepadSpeakerApp",
     "fetch_time",
     "fetch_weather_today",
     "fetch_weather_tomorrow",
