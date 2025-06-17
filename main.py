@@ -10,9 +10,9 @@ from headless_gamepad_speaker.tasks import (
 )
 from functools import partial
 
-# Example area: Tokyo (130000)
-AREA_CODE = "130000"
-AREA_NAME = "東京"
+# Example area: Osaka (270000)
+AREA_CODE = "270000"
+AREA_NAME = "大阪"
 
 
 def main() -> None:

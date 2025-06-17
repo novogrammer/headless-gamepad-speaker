@@ -49,7 +49,7 @@
    ```
 
 
-デフォルトではボタン **0** が現在時刻、ボタン **1**〜**3** が東京の天気を読み上げます。
+デフォルトではボタン **0** が現在時刻、ボタン **1**〜**3** が大阪の天気を読み上げます。
 
 ## カスタマイズ
 
@@ -60,8 +60,8 @@ from headless_gamepad_speaker import App
 from functools import partial
 from headless_gamepad_speaker.tasks import fetch_time, fetch_weather_today
 
-AREA_CODE = "140000"  # example: Kanagawa
-AREA_NAME = "神奈川"
+AREA_CODE = "130000"  # example: Tokyo
+AREA_NAME = "東京"
 
 app = App()
 app.register_button(0, fetch_time)
