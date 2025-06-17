@@ -5,7 +5,6 @@ import importlib.util
 from pathlib import Path
 import yaml
 import time
-import sys
 
 
 def load_config(path: str = "config.yaml", default_path: str = "config.default.yaml") -> dict:
@@ -65,7 +64,7 @@ except Exception:
 
 
 
-def pygame_loop(config_path: str = "config.yaml") -> bool:
+def pygame_loop() -> bool:
     """Run the main loop using the pygame library."""
     if pygame is None:
         return False
@@ -93,11 +92,11 @@ def pygame_loop(config_path: str = "config.yaml") -> bool:
         print(f"{joystick.get_name()} を監視しています。Ctrl+Cで終了します。")
         return joystick
 
-    config = load_config(path=config_path)
+    config = load_config()
     action_map = build_action_map(config)
     if not action_map:
         raise RuntimeError(
-            f"button_actions が設定されていません。{config_path} を確認してください。"
+            "button_actions が設定されていません。config.yaml を確認してください。"
         )
 
     try:
@@ -128,8 +127,7 @@ def pygame_loop(config_path: str = "config.yaml") -> bool:
 
 def main() -> None:
     """Wait for a gamepad button press then speak information like the time or weather."""
-    config_path = sys.argv[1] if len(sys.argv) > 1 else "config.yaml"
-    if pygame_loop(config_path):
+    if pygame_loop():
         return
     message = "ゲームパッド操作にはpygameライブラリが必要です。"
     print(message)
