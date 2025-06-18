@@ -50,6 +50,7 @@
 
 
 デフォルトではボタン **0** が現在時刻、ボタン **1**〜**3** が大阪の天気を読み上げます。
+ボタン **4** には `lambda` を使った例として `"こんにちは"` を発声する処理が割り当てられています。
 
 ## カスタマイズ
 
@@ -73,6 +74,10 @@ app.register_button(
         area_code=AREA_CODE,
         area_name=AREA_NAME,
     ),
+)
+app.register_button(
+    2,
+    lambda: f"{fetch_time()} {fetch_weather_today(area_code=AREA_CODE, area_name=AREA_NAME)}",
 )
 app.run()
 ```
