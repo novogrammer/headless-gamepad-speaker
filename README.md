@@ -50,6 +50,7 @@
 
 
 デフォルトではボタン **0** が現在時刻、ボタン **1**〜**3** が大阪の天気を読み上げます。
+ボタン **4** には `lambda` を使った例として `"こんにちは"` を発声する処理が割り当てられています。
 
 ## カスタマイズ
 
@@ -59,6 +60,7 @@
 ```python
 from headless_gamepad_speaker import App
 from functools import partial
+from random import randint
 from headless_gamepad_speaker.tasks import fetch_time, fetch_weather_today
 
 AREA_CODE = "130000"  # example: Tokyo
@@ -73,6 +75,10 @@ app.register_button(
         area_code=AREA_CODE,
         area_name=AREA_NAME,
     ),
+)
+app.register_button(
+    2,
+    lambda: f"サイコロの目は {randint(1, 6)} です",
 )
 app.run()
 ```
